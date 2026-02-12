@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Typing Speed Test</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#typing">Skip to typing area</a>
+
+  <main class="app">
+    <header class="topbar glass reveal" id="topbar">
+      <div class="brand">
+        <div class="logo-dot" aria-hidden="true"></div>
+        <div>
+          <h1>Typing Speed Test</h1>
+          <p class="muted">Timed + Words • WPM • Accuracy • Smooth UI</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="control">
+          <label for="modeSelect">Mode</label>
+          <select id="modeSelect" aria-label="Select test mode">
+            <option value="timed">Timed</option>
+            <option value="words">Words</option>
+          </select>
+        </div>
+
+        <div class="control" id="durationWrap">
+          <label for="durationSelect">Duration</label>
+          <select id="durationSelect" aria-label="Select duration">
+            <option value="15">15s</option>
+            <option value="30">30s</option>
+            <option value="60" selected>60s</option>
+            <option value="120">120s</option>
+          </select>
+        </div>
+
+        <div class="control hidden" id="wordsWrap">
+          <label for="wordsSelect">Words</label>
+          <select id="wordsSelect" aria-label="Select word target">
+            <option value="10">10</option>
+            <option value="25" selected>25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="difficultySelect">Difficulty</label>
+          <select id="difficultySelect" aria-label="Select difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn primary" id="resetBtn" aria-label="Reset test">
+            Reset
+          </button>
+          <button class="btn" id="newTextBtn" aria-label="Generate new text">
+            New Text
+          </button>
+          <button class="btn ghost" id="themeBtn" aria-label="Toggle theme">
+            Theme
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="stats glass reveal" id="stats">
+      <div class="stat">
+        <span class="label">Timer</span>
+        <span class="value" id="timerValue">01:00</span>
+      </div>
+      <div class="stat">
+        <span class="label">WPM</span>
+        <span class="value" id="wpmValue">0</span>
+      </div>
+      <div class="stat">
+        <span class="label">Accuracy</span>
+        <span class="value" id="accValue">100%</span>
+      </div>
+      <div class="stat">
+        <span class="label">Errors</span>
+        <span class="value" id="errValue">0</span>
+      </div>
+
+      <div class="progress-wrap" aria-label="Progress">
+        <div class="progress-meta">
+          <span class="muted" id="progressText">0%</span>
+          <a class="link" href="#history" id="toHistory">History ↓</a>
+        </div>
+        <div class="progress">
+          <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="typing glass reveal" id="typing">
+      <div class="typing-header">
+        <h2>Type the text below</h2>
+        <p class="muted" id="hintText">
+          Start typing to begin. Paste is disabled for fairness.
+        </p>
+      </div>
+
+      <div class="target" id="targetText" aria-label="Target text"></div>
+
+      <div class="input-wrap">
+        <label class="sr-only" for="typeInput">Typing input</label>
+        <textarea id="typeInput" spellcheck="false" autocomplete="off" autocapitalize="off"
+          placeholder="Start typing here..." rows="3"></textarea>
+      </div>
+
+      <div class="mini-actions">
+        <a class="link" href="#instructions" id="toInstructions">Instructions ↓</a>
+      </div>
+    </section>
+
+    <section class="info glass reveal" id="instructions">
+      <h2>How it works</h2>
+      <ul>
+        <li><b>Start:</b> first keystroke starts the test and timer.</li>
+        <li><b>WPM:</b> based on correct characters / 5 over elapsed time.</li>
+        <li><b>Accuracy:</b> correct / total typed characters.</li>
+        <li><b>Errors:</b> mismatches vs the target at each position.</li>
+      </ul>
+    </section>
+
+    <section class="history glass reveal" id="history">
+      <div class="history-head">
+        <h2>Recent runs</h2>
+        <div class="history-actions">
+          <button class="btn small" id="clearHistoryBtn">Clear</button>
+          <button class="btn small ghost" id="scrollTopBtn">Top ↑</button>
+        </div>
+      </div>
+      <div class="history-list" id="historyList">
+        <p class="muted">No history yet. Complete a test to see results here.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Results Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="resultsTitle">
+      <div class="modal-head">
+        <h2 id="resultsTitle">Results</h2>
+        <button class="icon-btn" id="closeModalBtn" aria-label="Close results">✕</button>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-card">
+          <span class="label">Final WPM</span>
+          <span class="value" id="finalWpm">0</span>
+        </div>
+        <div class="result-card">
+          <span class="label">Accuracy</span>
+          <span class="value" id="finalAcc">0%</span>
+        </div>
+        <div class="result-card">
+          <span class="label">Errors</span>
+          <span class="value" id="finalErr">0</span>
+        </div>
+        <div class="result-card">
+          <span class="label">Time</span>
+          <span class="value" id="finalTime">0s</span>
+        </div>
+        <div class="result-card">
+          <span class="label">Chars Typed</span>
+          <span class="value" id="finalChars">0</span>
+        </div>
+      </div>
+
+      <div class="bars">
+        <div class="bar">
+          <span class="muted">WPM</span>
+          <div class="bar-track">
+            <div class="bar-fill" id="barWpm" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="bar">
+          <span class="muted">Accuracy</span>
+          <div class="bar-track">
+            <div class="bar-fill" id="barAcc" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn primary" id="retryBtn">Retry</button>
+        <button class="btn" id="modalNewTextBtn">New Text</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
