@@ -1,5 +1,9 @@
 # 🚀 08 - Simple Web Projects: **Typing Speed Test** (HTML, CSS, JavaScript)
 
+<p align="center">
+  <img src="assets/banner-typing-speed-test.png" width="100%">
+</p>
+
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 ![HTML](https://img.shields.io/badge/HTML5-orange?logo=html5)
